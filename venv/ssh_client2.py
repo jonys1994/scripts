@@ -3,7 +3,7 @@
 import paramiko
 import os
 
-testfile='/data/devops/scripts/test'
+testfile='/data/devops/log/test'
 
 transport = paramiko.Transport('10.0.10.57', 22)
 transport.connect(username='root',password='shinemo123')
