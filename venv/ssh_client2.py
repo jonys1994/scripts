@@ -16,6 +16,6 @@ if not os.path.exists(testfile):
     os.system(r'touch {}' .format(testfile))
 
 with open(testfile,'w') as f:
-    print(stdout.read(), f)
+    print(stdout.read(), file=f)
     f.close()
 transport.close()
