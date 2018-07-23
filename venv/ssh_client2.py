@@ -15,6 +15,7 @@ stdin, stdout, stderr = ssh.exec_command('df')
 if not os.path.exists(testfile):
     os.system(r'touch {}' .format(testfile))
 
-with open(testfile,'r+') as f:
+with open(testfile,'w') as f:
     print(stdout.read(), f)
+    f.close()
 transport.close()
