@@ -18,6 +18,7 @@ def readfile(filename):
         fileHandle = open(filename, 'rb')
         text = fileHandle.read().splitlines()
         fileHandle.close()
+        return text
     except IOError as error:
         print('Read file Error:' + str(error))
         sys.exit()
