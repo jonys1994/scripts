@@ -15,7 +15,7 @@ except Exception as e:
 
 def readfile(filename):
     try:
-        fileHandle = open(filename, 'rb')
+        fileHandle = open(filename, 'r')
         text = fileHandle.read().splitlines()
         fileHandle.close()
         return text
@@ -27,8 +27,12 @@ if textfile1 =="" or textfile2 == "":
     print("Usage: diffile2.py filename1 filename2")
     sys.exit()
 
+#textfile1 = 'C:\\Users\ShineMo\Desktop\password_new.txt'
+#textfile2 = 'C:\\Users\ShineMo\Desktop\password.txt'
+
 text1_lines = readfile(textfile1)
 text2_lines = readfile(textfile2)
 
 d = difflib.HtmlDiff()
 print(d.make_file(text1_lines, text2_lines))
+print("end!")
