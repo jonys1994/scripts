@@ -9,7 +9,7 @@ import uuid
 
 env.user = 'root'
 env.password = 'shinemo123'
-env.host = ['10.0.10.72', '10.0.10.73']
+env.hosts = ['10.0.10.72', '10.0.10.73']
 
 now_time = d.now().strftime('%Y%m%d%H%M%S')
 deploy_tar = 'deploy_' + now_time + '.tar.gz'
