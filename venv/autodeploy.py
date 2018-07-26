@@ -9,7 +9,7 @@ import uuid
 
 env.user = 'root'
 env.password = 'shinemo123'
-env.hosts = ['10.0.10.72', '10.0.10.73']
+env.hosts = ['{}' .format(sys.argv[1])]
 
 now_time = d.now().strftime('%Y%m%d%H%M%S')
 deploy_tar = 'deploy_' + now_time + '.tar.gz'
@@ -44,7 +44,7 @@ def deploy():
     current_day = d.now().strftime('%Y%m%d')
     uid = str(uuid.uuid1()).split('-')[0]
     remote_tmp_path = base_path + '/' + current_day + '_' + uid
-    remote_deploy_path = sys.argv[1]
+    remote_deploy_path = sys.argv[2]
     run('mkdir {}' .format(remote_tmp_path))
     put('{}' .format(deploy_tar_fullname) , '{}' .format(remote_tmp_path))
     run('tar zxvf {} -C {}' .format(remote_tmp_path + '/' + deploy_tar, remote_deploy_path))
