@@ -12,13 +12,15 @@ env.password = 'shinemo123'
 env.host = ['10.0.10.72', '10.0.10.73']
 
 now_time = d.now().strftime('%Y%m%d%H%M%S')
-deploy_target = '/tmp/deploy_' + now_time + '.tar.gz'
+deploy_tar = 'deploy_' + now_time + '.tar.gz'
+local_base_path = '/tmp'
+deploy_tar_fullname = local_base_path + '/' + deploy_tar
 
 def pack():
     """定义一个打包任务"""
     rechk_list = []
     chk_list = []
-    handlefile = '/tmp/deploy_target'
+    handlefile = local_base_path + 'deploy_target'
     for targetFile in open(handlefile):
         if not os.path.exists(targetFile.strip()):
             rechk_list.append(targetFile.strip())
@@ -28,13 +30,13 @@ def pack():
         print("{} is not found, Please check, and make sure target file or target path can be found by the program!" .format([x for x in rechk_list]))
         exit(1)
     else:
-        if os.path.exists(deploy_target):
-            print("{} is exsited, program will delete it!" .format(deploy_target))
-            lcoal('rm -f {}' .format(deploy_target))
+        if os.path.exists(deploy_tar_fullname):
+            print("{} is exsited, program will delete it!" .format(deploy_tar_fullname))
+            lcoal('rm -f {}' .format(deploy_tar_fullname))
             print("The packaging job begins to execute...")
             local('tar -czvf {} {}' .format(depoly, ' '.join(chk_list)))
         else:
-            local('tar -czvf {} {}'.format(deploy_target, ' '.join(chk_list)))
+            local('tar -czvf {} {}'.format(deploy_tar_fullname, ' '.join(chk_list)))
 
 
 def deploy():
@@ -44,8 +46,8 @@ def deploy():
     remote_tmp_path = base_path + '/' + current_day + '_' + uid
     remote_deploy_path = sys.argv[1]
     run('mkdir {}' .format(remote_tmp_path))
-    put('{}' .format(deploy_target) , '{}' .format(remote_tmp_path))
-    run('tar zxvf {} -C {}' .format(remote_tmp_path + '/' + deploy_target, remote_deploy_path))
+    put('{}' .format(deploy_tar_fullname) , '{}' .format(remote_tmp_path))
+    run('tar zxvf {} -C {}' .format(remote_tmp_path + '/' + deploy_tar, remote_deploy_path))
 
 if __name__ == '__main__':
     print('The automatic deployment program starts executing...')
