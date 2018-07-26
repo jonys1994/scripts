@@ -45,11 +45,11 @@ def deploy():
     remote_deploy_path = sys.argv[1]
     run('mkdir {}' .format(remote_tmp_path))
     put('{}' .format(deploy_target) , '{}' .format(remote_tmp_path))
-    cd('/tmp/{}' .format(remote_tmp_path))
-    run('tar zxvf {} -C {}' .format(deploy_target, remote_deploy_path))
+    with cd('/tmp/{}' .format(remote_tmp_path))
+        run('tar zxvf {} -C {}' .format(deploy_target, remote_deploy_path))
 
 if __name__ == '__main__':
     print('The automatic deployment program starts executing...')
     pack()
-
+    deploy()
 
