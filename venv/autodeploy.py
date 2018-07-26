@@ -5,17 +5,19 @@
 from fabric.api import *
 from datetime import datetime as d
 import os, sys
+import uuid
 
 env.user = 'root'
 env.password = 'shinemo123'
 env.host = ['10.0.10.72', '10.0.10.73']
 
+now_time = d.now().strftime('%Y%m%d%H%M%S')
+deploy_target = '/tmp/deploy_' + now_time + '.tar.gz'
 
 def pack():
     """定义一个打包任务"""
     rechk_list = []
     chk_list = []
-    deploy_target = sys.argv[1]
     handlefile = '/tmp/deploy_target'
     for targetFile in open(handlefile):
         if not os.path.exists(targetFile.strip()):
@@ -36,8 +38,18 @@ def pack():
 
 
 def deploy():
-    pass
-
+    base_path = '/tmp'
+    current_day = d.now().strftime('%Y%m%d')
+    uid = str(uuid.uuid1()).split('-')[0]
+    remote_tmp_path = base_path + '/' + current_day + '_' + uid
+    remote_deploy_path = sys.argv[1]
+    run('mkdir {}' .format(remote_tmp_path))
+    put('{}' .format(deploy_target) , '{}' .format(remote_tmp_path))
+    cd('/tmp/{}' .format(remote_tmp_path))
+    run('tar zxvf {} -C {}' .format(deploy_target, remote_deploy_path))
 
 if __name__ == '__main__':
+    print('The automatic deployment program starts executing...')
     pack()
+
+
