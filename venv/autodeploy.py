@@ -20,7 +20,7 @@ def pack():
     """定义一个打包任务"""
     rechk_list = []
     chk_list = []
-    handlefile = local_base_path + 'deploy_target'
+    handlefile = local_base_path + '/deploy_target'
     for targetFile in open(handlefile):
         if not os.path.exists(targetFile.strip()):
             rechk_list.append(targetFile.strip())
